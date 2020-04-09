@@ -26,12 +26,28 @@ plot(trend,price)
 
 #Correlation
 cor(Cdata)
+#Barplot
+barplot(height=Cdata$price, names=Cdata$price)
+
+#Correlation
+cor(Cdata$price,Cdata$X)
+cor(Cdata$price,Cdata$speed)
+cor(Cdata$price,Cdata$hd)
+cor(Cdata$price,Cdata$screen)
+cor(Cdata$price,Cdata$cd)
+cor(Cdata$price,Cdata$multi)
+cor(Cdata$price,Cdata$premium)
+cor(Cdata$price,Cdata$ads)
+cor(Cdata$price,Cdata$trend)
 
 #Build Linear Model
 model <- lm(price~speed+hd+ram+screen+cd+multi+premium+ads+trend)
 summary(model)
 #Multiple R-squared:  0.7756,	Adjusted R-squared:  0.7752
 plot(model)
+## Added Variable plot to check correlation b/n variables and o/p variable
+avPlots(model,id.n=2,id.cex=0.7)
+
 
 
 library(mvinfluence)
