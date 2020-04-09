@@ -31,12 +31,21 @@ model <- lm(Profit~RD_Spend+Administration+Marketing_Spend+State)
 summary(model)
 #Multiple R-squared:  0.9507,	Adjusted R-squared:  0.9464 
 plot(model)
+## Added Variable plot to check correlation b/n variables and o/p variable
+avPlots(model,id.n=2,id.cex=0.7)
 
+#boxplot
+boxplot(Profit~RD_Spend+Administration+Marketing_Spend+State , data=Startups, main = "Output result",las = 2, pch=16, cex = 1,
+        col = "lightblue", xlab = "R",ylab = "SNP values",ylim =c(-0.4,1.2), 
+        border ="blue", boxwex = 0.3)
 
 model1 <- lm(Profit~RD_Spend+log(Administration))
 summary(model1)
 #Multiple R-squared:  0.9474,	Adjusted R-squared:  0.9451 
 plot(model1)
+## Added Variable plot to check correlation b/n variables and o/p variable
+avPlots(model1,id.n=2,id.cex=0.7)
+
 
 install.packages("corpcor")
 library(corpcor)
@@ -51,17 +60,31 @@ influence.measures(model)
 influenceIndexPlot(model,id = 3)
 influencePlot(model,id=3)
 
+#Correlation and Barplot
+barplot(height=Startups$Profit, names=Startups$Profit)
+
+cor(Startups$Profit,Startups$RD_Spend)
+cor(Startups$Profit,Startups$Administration)
+cor(Startups$Profit,Startups$State)
+
+
 #logarthimic Transformation
 model2 <- lm(Profit~RD_Spend+log(Administration)+Marketing_Spend+log(State),data=Startups[-c(49,50),])
 plot(model2)
 summary(model2)
 #Multiple R-squared:  0.9625,	Adjusted R-squared:  0.9591
+## Added Variable plot to check correlation b/n variables and o/p variable
+avPlots(model2,id.n=2,id.cex=0.7)
+
 
 #Exponential Transformation
 model3 <- lm(log(Profit)~RD_Spend+Administration+Marketing_Spend+State,data=Startups[-c(49,50),])
 plot(model3)
 summary(model3)
 #Multiple R-squared:  0.9252,	Adjusted R-squared:  0.9182
+## Added Variable plot to check correlation b/n variables and o/p variable
+avPlots(model3,id.n=2,id.cex=0.7)
+
 
 #Function to predict the model
 p <- predict(model,interval = 'predict')
@@ -74,5 +97,9 @@ rmse
 
 rmse1 <- sqrt(mean(p3-Profit)^2)
 rmse1
+
+
+
+
 
 
